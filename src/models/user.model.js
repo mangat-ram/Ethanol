@@ -29,7 +29,25 @@ const userSchema = new Schema({
     },
     refreshToken:{
       type:String
-    }
+    },
+    labs:[
+      {
+        type:Schema.Types.ObjectId,
+        ref:"Lab"
+      }
+    ],
+    compounds:[
+      {
+        type:Schema.Types.ObjectId,
+        ref:"Task"
+      }
+    ],
+    molecules:[
+      {
+        type:Schema.Types.ObjectId,
+        ref:"Molecule"
+      }
+    ]
   },{ timestamps:true }
 )
 

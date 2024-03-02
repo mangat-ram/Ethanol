@@ -24,8 +24,12 @@ const taskSchema = new Schema({
   },
   status:{
     type:String,
-    enum:["pending","completed","inProgress","qualityAssurance","deployed"],
-    default:"inProgress"
+    enum:["toDo","completed","inProgress","qualityAssurance","deployed"],
+    default:"toDo"
+  },
+  isCompleted:{
+    type:Boolean,
+    default:false
   },
   creator:{
     types:Schema.Types.ObjectId,
@@ -38,7 +42,13 @@ const taskSchema = new Schema({
   category:{
     type:Schema.Types.ObjectId,
     ref:"Category",
-  }
+  },
+  molecules:[
+    {
+      type:Schema.Types.ObjectId,
+      ref:"Molecule"
+    }
+  ]
 },{ timestamps : true })
 
 export const Task = mongoose.model("Task",taskSchema);
