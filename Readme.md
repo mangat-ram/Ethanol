@@ -12,4 +12,4 @@ Contributions are welcome! If you have any suggestions, feature requests, or bug
 ## Acknowledgements
 - Ethanol was inspired by the need for an efficient project management tool in modern workplaces.- Special thanks to the contributors who have helped improve Ethanol through their feedback and contributions.
 ## Contact
-For any inquiries or support, please contact [mram34272@gmail.com](mailto:mram34272@gmail.com).
+For any inquiries or support, please contact [mram34272@gmail.com]    (mailto:mram34272@gmail.com).
