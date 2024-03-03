@@ -1,4 +1,6 @@
-import mongoose,{ Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import { User } from "./user.model.js";
+import { Category } from "./category.model.js"
 
 const moleculeSchema = new Schema(
   {
@@ -33,11 +35,11 @@ const moleculeSchema = new Schema(
       default: false
     },
     creator: {
-      types: Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User"
     },
     assignee: {
-      types: Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User"
     },
     category: {

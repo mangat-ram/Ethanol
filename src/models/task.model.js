@@ -1,4 +1,9 @@
-import mongoose,{ Schema } from "mongoose";
+import mongoose from "mongoose";
+import { User } from "./user.model.js";
+import { Molecule } from "./molecule.model.js";
+import { Category } from "./category.model.js"
+
+const { Schema } = mongoose;
 
 const taskSchema = new Schema({
   title:{
@@ -32,11 +37,11 @@ const taskSchema = new Schema({
     default:false
   },
   creator:{
-    types:Schema.Types.ObjectId,
+    type:Schema.Types.ObjectId,
     ref:"User"
   },
   assignee:{
-    types:Schema.Types.ObjectId,
+    type:Schema.Types.ObjectId,
     ref:"User"
   },
   category:{
