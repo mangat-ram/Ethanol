@@ -1,9 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
-const categorySchema = new Schema({
+const categorySchema = new Schema(
+  {
     category:{
       type:String,
-      enum:["bugFix","feature","verification","qualityAssurance"],
+      // enum:["bugFix","feature","verification","qualityAssurance"],
       unique:true
     }
   },{ timestamps:true }
