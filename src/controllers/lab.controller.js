@@ -7,14 +7,15 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
 const createLab = asyncHandler(async(req, res) => {
-  console.log(req.body);
-  const lab = await Lab.create(req.body);
+  console.log(req.user);
+  const { labName } = req.body;
+  const lab = await Lab.create({labName:labName});
   const userId = req._id;
   const user = await User.updateUserForLabCreation(userId, lab._id);
 
-  // if(!labName){
-  //   throw new ApiError(401,"Labname is Required.")
-  // }
+  if(!labName){
+    throw new ApiError(401,"Labname is Required.")
+  }
 
   return res
   .status(201)
