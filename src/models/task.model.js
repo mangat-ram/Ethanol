@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { User } from "./user.model.js";
 import { Molecule } from "./molecule.model.js";
-import { Category } from "./category.model.js"
+import { Category } from "./category.model.js";
 
 const { Schema } = mongoose;
 

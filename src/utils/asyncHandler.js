@@ -1,12 +1,5 @@
 // Custom async handler function to avoid Errors
 
-// const asyncHandler = (reqHandler) => {
-//   return (req,res,next) => {
-//     Promise.resolve(reqHandler(req,res,next))
-//     .catch((err) => next(err))
-//   }
-// };
-
 const asyncHandler = (reqHandler) => {
   return (req, res, next) => {
     Promise.resolve(reqHandler(req, res, next))
@@ -18,5 +11,3 @@ const asyncHandler = (reqHandler) => {
 };
 
 export { asyncHandler };
-
-// export { asyncHandler }

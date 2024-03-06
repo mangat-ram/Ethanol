@@ -134,6 +134,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 })
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
+  console.log(req.cookies.refreshToken);
   const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
   if(!incomingRefreshToken){
     throw new ApiError(401,"Unauthorized Request!")
@@ -178,21 +179,29 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 })
 
 const changeCurrentPassword = asyncHandler(async (req, res) => {
-  const { oldPassword, newPassword } = req.body
-  const userId = req.user?._id
-  const user = User.findById(userId)
-  const isPasswordValid = await user.isPasswordCorrect(oldPassword)
-  if(!isPasswordValid){
-    throw new ApiError(400, "Invalid Old Password!!!")
+  const { oldPassword, newPassword } = req.body;
+  const userId = req.user?._id;
+
+  // Find the user by ID
+  const user = await User.findById(userId);
+
+  // Check if the old password is correct
+  const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
+  if (!isPasswordCorrect) {
+    throw new ApiError(400, "Invalid old password!");
   }
 
-  const userPassword = newPassword
-  await user.save({validateBeforeSave:false})
+  // Update the user's password
+  user.passWord = newPassword; // Update the password field directly
+
+  // Save the user with the new password
+  await user.save();
 
   return res
-  .status(200)
-  .json(new ApiResponse(200,{},"Password Changed Successfully."))
-})
+    .status(200)
+    .json(new ApiResponse(200, {}, "Password changed successfully."));
+});
+
 
 const getCurrentUser = asyncHandler(async(req, res) => {
   return res
