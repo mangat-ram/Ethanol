@@ -43,14 +43,13 @@ const getAllCategory = asyncHandler(async(req, res) => {
 })
 
 const updateCategory = asyncHandler(async(req,res) => {
-  const { newCategoryName } = req.body;
+  const { oldCategoryName,newCategoryName } = req.body;
   if(!newCategoryName){
     throw new ApiError(401,"Categoryname is Required")
   }
 
-  const categoryId = req.category?._id
-  const category = await Category.findByIdAndUpdate(
-    categoryId,
+  const category = await Category.findOneAndUpdate(
+    { category:oldCategoryName },
     {
       $set:{
         category:newCategoryName
@@ -66,14 +65,15 @@ const updateCategory = asyncHandler(async(req,res) => {
   )
 })
 
-const deleteCategory = asyncHandler(async(req, res) => {
-  const categoryId = req.category?._id;
-  await Category.findByIdAndDelete(categoryId);
 
+const deleteCategory = asyncHandler(async(req, res) => {
+  const { category } = req.body;
+
+  await Category.deleteOne({ category: category});
   return res
   .status(201)
   .json(
-    new ApiResponse(200, {},"Category deleted Successfully.")
+    new ApiResponse(200, {}, "Category deleted Successfully.")
   )
 })
 
