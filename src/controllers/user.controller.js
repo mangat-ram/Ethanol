@@ -208,30 +208,28 @@ const getCurrentUser = asyncHandler(async(req, res) => {
   .json(new ApiResponse(200,req.user,"Current User Fetched Successfully."))
 })
 
-const updateAccountDetails = asyncHandler( async(req, res) => {
-  const { userName, name, email } = req.body
-  if(!userName || !name || !email){
-    throw new ApiError(400,"All fields are required!")
+const updateAccountDetails = asyncHandler(async (req, res) => {
+  const { userName, name, email } = req.body;
+  if (!userName && !name && !email) {
+    throw new ApiError(400, "At least one field is required to update!");
   }
 
-  const user = User.findByIdAndUpdate(
+  const updateFields = {};
+  if (userName) updateFields.userName = userName;
+  if (name) updateFields.name = name;
+  if (email) updateFields.email = email;
+
+  const user = await User.findByIdAndUpdate(
     req.user._id,
-    {
-      $set: {
-        userName,
-        name,
-        email
-      }
-    },
-    {new: true},
-  ).select("-passWord")
+    { $set: updateFields },
+    { new: true }
+  ).select("-passWord");
 
   return res
-  .status(201)
-  .json(
-    new ApiResponse(200,user, "Account Details updated Successfully.")
-  )
-})
+    .status(201)
+    .json(new ApiResponse(200, user, "Account Details updated Successfully."));
+});
+
 
 export {
   generateAccessAndRefreshTokens,
