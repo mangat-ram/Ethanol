@@ -6,25 +6,41 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
-const createLab = asyncHandler(async(req, res) => {
-  // console.log(req.user);
-  // console.log(req.user._id);
-  const { labName } = req.body;
-  const lab = await Lab.create({labName:labName});
-  const userId = req.user._id;
-  const user = await User.updateUserForLabCreation(userId, lab._id);
-  const showUser = await User.findById(userId).select(
-    "-passWord -refreshToken"
-  )
+// const createLab = asyncHandler(async(req, res) => {
 
+//   const { labName } = req.body;
+//   const lab = await Lab.create({labName:labName});
+//   const userId = req.user._id;
+//   const user = await User.updateUserForLabCreation(userId, lab._id);
+
+//   if(!labName){
+//     throw new ApiError(401,"Labname is Required.")
+//   }
+
+//   return res
+//   .status(201)
+//   .json(
+//     new ApiResponse(200,lab,"Lab created Successfully.")
+//   )
+// })
+
+const createLab = asyncHandler(async(req,res) => {
+  const { labName } = req.body;
   if(!labName){
-    throw new ApiError(401,"Labname is Required.")
+    throw new ApiError(400,"Lab Name is required!!!")
   }
+  const userId = req.user._id;
+  const lab = new Lab({
+    labName,
+    labMaker:userId
+  }) 
+
+  await lab.save()
 
   return res
   .status(201)
   .json(
-    new ApiResponse(200,showUser,"Lab created Successfully.")
+    new ApiResponse(200,lab,"Lab created Successfully.")
   )
 })
 

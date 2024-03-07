@@ -3,7 +3,7 @@ import {
   createTask, 
   deleteTask, 
   getTaskById, 
-  getTasksByCategory, 
+  getTasksByCategory,
   getTasksByStatus 
 } from "../controllers/tasks.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";

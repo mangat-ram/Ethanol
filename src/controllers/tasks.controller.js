@@ -107,6 +107,23 @@ const updateDueDate = asyncHandler(async(req, res) => {
   )
 })
 
+const updateTaskDetails = asyncHandler(async(req,res) => {
+  const { title, description, startDate, dueDate } = req.body;
+  if (!title && !description && !startDate && !dueDate){
+    throw new ApiError(400,"Atleast one field for updation is required for task.")
+  }
+
+  const updateFields = {}
+  if (title) updateFields.title = title;
+  if (description) updateFields.description = description;
+  if (startDate) updateFields.startDate = startDate;
+  if (dueDate) updateFields.dueDate = dueDate;
+
+  const task = await Task.findByIdAndUpdate(
+    
+  )
+})
+
 const deleteTask = asyncHandler(async(req, res) => {
   const taskId = req.task?._id
   const task = await Task.findByIdAndDelete(taskId)
