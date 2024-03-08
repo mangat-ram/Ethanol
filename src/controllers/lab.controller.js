@@ -28,32 +28,25 @@ const createLab = asyncHandler(async(req,res) => {
 const updateLabname = asyncHandler(async(req, res) => {
   const { oldLabname,newLabname } = req.body;
   if(!oldLabname && !newLabname){
-    
+    throw new ApiError(401,"old and new labnames are mandatory!!")
   }
   const userId = req.user._id;
   const userName = req.user.userName
   console.log(userId);
   console.log(userName);
-  const lab = await Lab.aggregate(
-    [
-      {
-        $match:{
-          labMaker:userId,
-          labName:oldLabname
-        }
-      },
-      {
-        $set:{
-          labName:newLabname
-        }
-      }
-    ]
+  const lab = await Lab.findOneAndUpdate({
+      $and:[
+       labMaker = userId,
+       labName = oldLabname
+      ],
+    $set: { labName:newLabname}
+    })
   )
 
   return res
   .status(201)
   .json(
-    new ApiResponse(200,Lab,"Labname updated successfully.")
+    new ApiResponse(200,lab,"Labname updated successfully.")
   )
 })
 
