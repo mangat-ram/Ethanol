@@ -26,21 +26,35 @@ const createLab = asyncHandler(async(req,res) => {
 })
 
 const updateLabname = asyncHandler(async(req, res) => {
-  const { newLabname } = req.body;
+  const { oldLabname,newLabname } = req.body;
+  if(!oldLabname && !newLabname){
+    
+  }
   const userId = req.user._id;
   const userName = req.user.userName
   console.log(userId);
   console.log(userName);
-  // const lab = await Lab.aggregate(
-  //   [
-  //     {
-  //       $match:{
-  //         labMaker:userId,
+  const lab = await Lab.aggregate(
+    [
+      {
+        $match:{
+          labMaker:userId,
+          labName:oldLabname
+        }
+      },
+      {
+        $set:{
+          labName:newLabname
+        }
+      }
+    ]
+  )
 
-  //       }
-  //     }
-  //   ]
-  // )
+  return res
+  .status(201)
+  .json(
+    new ApiResponse(200,Lab,"Labname updated successfully.")
+  )
 })
 
 export{
