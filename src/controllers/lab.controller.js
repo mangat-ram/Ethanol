@@ -41,9 +41,6 @@ const updateLabname = asyncHandler(async(req, res) => {
     throw new ApiError(401,"old and new labnames are mandatory!!")
   }
   const userId = req.user._id;
-  // const userName = req.user.userName
-  // console.log(userId);
-  // console.log(userName);
   const isExists = await Lab.findOne(
     {
       labName:newLabname,

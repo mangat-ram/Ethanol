@@ -50,6 +50,9 @@ const taskSchema = new Schema(
       enum:["bugFix","feature","verification","qualityAssurance"],
       default:"feature"
     },
+    uniKey:{
+      type:String
+    },
     molecules:[
       {
         type:Schema.Types.ObjectId,

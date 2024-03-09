@@ -22,6 +22,7 @@ const createTask = asyncHandler(async(req, res) => {
       startDate,
       dueDate,
       creator:userId,
+      uniKey: Date.now()
     }
   )
 
