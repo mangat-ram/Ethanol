@@ -28,4 +28,11 @@ const labSchema = new Schema(
   },{timestamps:true}
 )
 
+labSchema.statics.updateLabOnTaskCreation = async function (labId,taskId) {
+  return await this.findByIdAndUpdate(labId, { $push: { compounds: taskId } }, { new: true });
+};
+
+labSchema.statics.updateLabOnMolCreation = async function (labId,MolId) {
+  return await this.findByIdAndUpdate(labId, { $push: { molecules: MolId } }, { new: true });
+};
 export const Lab = mongoose.model("Lab",labSchema);

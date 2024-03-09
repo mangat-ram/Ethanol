@@ -42,9 +42,22 @@ const moleculeSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User"
     },
+    // category: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "Category",
+    // }
     category: {
+      type: String,
+      enum: ["bugFix", "feature", "verification", "qualityAssurance"],
+      default: "feature"
+    },
+    labName: {
       type: Schema.Types.ObjectId,
-      ref: "Category",
+      ref: "Lab"
+    },
+    compound:{
+      type:Schema.Types.ObjectId,
+      ref:"Task"
     }
   },{timestamps:true}
 )

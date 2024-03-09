@@ -53,6 +53,10 @@ const taskSchema = new Schema(
     uniKey:{
       type:String
     },
+    labName :{
+      type:Schema.Types.ObjectId,
+      ref:"Lab"
+    },
     molecules:[
       {
         type:Schema.Types.ObjectId,
@@ -60,5 +64,6 @@ const taskSchema = new Schema(
       }
     ]
   },{ timestamps : true })
+
 
 export const Task = mongoose.model("Task",taskSchema);
