@@ -68,7 +68,29 @@ const updateLabname = asyncHandler(async(req, res) => {
   )
 })
 
+// const labname = req.params.labname;
+// if(!labname){
+//   throw new ApiError(401,"labname is required.")
+// }
+// const lab = await Lab.findOne(
+//   {
+//     labName:labname
+//   }
+// )
+// if(!lab){
+//   throw new ApiError(404,"Lab not Found!!!")
+// }
+
+const getLabByLabname = asyncHandler(async(req,res) => {
+  return res
+  .status(201)
+  .json(
+    new ApiResponse(200,req.lab,"lab by labname fetched successfully.")
+  )
+})
+
 export{
   createLab,
-  updateLabname
+  updateLabname,
+  getLabByLabname
 }
