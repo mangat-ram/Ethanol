@@ -13,6 +13,7 @@ const createTask = asyncHandler(async(req, res) => {
   })){
     throw new ApiError(400,"All fields are required!!")
   }
+  const userId = req.user._id
 
   const task = await Task.create(
     {
@@ -20,11 +21,7 @@ const createTask = asyncHandler(async(req, res) => {
       description: description.toLowerCase(),
       startDate,
       dueDate,
-      priority,
-      status,
-      creator,
-      assignee,
-      category
+      creator:userId,
     }
   )
 

@@ -12,11 +12,11 @@ const taskSchema = new Schema(
       required:true
     },
     startDate:{
-      type:Date,
+      type:String,
       required:true
     },
     dueDate:{
-      type:Date,
+      type:String,
       required:true
     },
     priority:{
@@ -37,13 +37,18 @@ const taskSchema = new Schema(
       type:Schema.Types.ObjectId,
       ref:"User"
     },
-    assignee:{
-      type:Schema.Types.ObjectId,
-      ref:"User"
-    },
+    // assignee:{
+    //   type:Schema.Types.ObjectId,
+    //   ref:"User"
+    // },
+    // category:{
+    //   type:Schema.Types.ObjectId,
+    //   ref:"Category",
+    // },
     category:{
-      type:Schema.Types.ObjectId,
-      ref:"Category",
+      type:String,
+      enum:["bugFix","feature","verification","qualityAssurance"],
+      default:"feature"
     },
     molecules:[
       {
