@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 
 const createLab = asyncHandler(async(req,res) => {
   const { labName } = req.body;
+  
   if(!labName){
     throw new ApiError(400,"Lab Name is required!!!")
   }
@@ -27,6 +28,14 @@ const createLab = asyncHandler(async(req,res) => {
 
 const updateLabname = asyncHandler(async(req, res) => {
   const { oldLabname,newLabname } = req.body;
+  const isExists = await Lab.findOne(
+    {
+      labName:newLabname
+    }
+  )
+  if(isExists){
+    throw new ApiError(409,"Choose diffrent labname newlabname already exists.")
+  }
   if(!oldLabname && !newLabname){
     throw new ApiError(401,"old and new labnames are mandatory!!")
   }
@@ -34,14 +43,16 @@ const updateLabname = asyncHandler(async(req, res) => {
   const userName = req.user.userName
   console.log(userId);
   console.log(userName);
-  const lab = await Lab.findOneAndUpdate({
-      $and:[
-       labMaker = userId,
-       labName = oldLabname
-      ],
-    $set: { labName:newLabname}
-    })
-  )
+  const lab = await Lab.findOneAndUpdate(
+    {
+      $and: [
+        { labMaker: userId },
+        { labName: oldLabname }
+      ]
+    },
+    { $set: { labName: newLabname } },
+    { new: true } // to return the updated document
+  );
 
   return res
   .status(201)
