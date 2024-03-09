@@ -50,9 +50,6 @@ const taskSchema = new Schema(
       enum:["bugFix","feature","verification","qualityAssurance"],
       default:"feature"
     },
-    uniKey:{
-      type:String
-    },
     labName :{
       type:Schema.Types.ObjectId,
       ref:"Lab"
@@ -63,7 +60,11 @@ const taskSchema = new Schema(
         ref:"Molecule"
       }
     ]
-  },{ timestamps : true })
+  },{ timestamps : true }
+)
 
+taskSchema.statics.updateTaskOnMolCreation = async function (TaskId, MolId) {
+  return await this.findByIdAndUpdate(TaskId, { $push: { molecules: MolId } }, { new: true });
+};
 
 export const Task = mongoose.model("Task",taskSchema);

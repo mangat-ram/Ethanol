@@ -4,6 +4,8 @@ import { Task } from "../models/task.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import { User } from "../models/user.model.js";
+import { Lab } from "../models/lab.model.js";
 
 const createTask = asyncHandler(async(req, res) => {
   const { title, description, startDate, dueDate } = req.body;
@@ -14,6 +16,7 @@ const createTask = asyncHandler(async(req, res) => {
     throw new ApiError(400,"All fields are required!!")
   }
   const userId = req.user._id
+  const labId = req.lab._id
 
   const task = await Task.create(
     {
@@ -22,10 +25,11 @@ const createTask = asyncHandler(async(req, res) => {
       startDate,
       dueDate,
       creator:userId,
-      uniKey: Date.now()
+      lab:labId
     }
   )
 
+  
   const createdTask = await Task.findById(task._id)
 
   if(!createdTask){

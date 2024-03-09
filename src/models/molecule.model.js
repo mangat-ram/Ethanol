@@ -62,4 +62,6 @@ const moleculeSchema = new Schema(
   },{timestamps:true}
 )
 
+
+
 export const Molecule = mongoose.model("Molecule", moleculeSchema);

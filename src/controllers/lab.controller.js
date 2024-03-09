@@ -1,4 +1,5 @@
 import { Lab } from "../models/lab.model.js";
+import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -24,8 +25,8 @@ const createLab = asyncHandler(async(req,res) => {
   const lab = new Lab({
     labName,
     labMaker:userId
-  }) 
-
+  })
+  const user = await User.updateUserForLabCreation(userId,lab._id) 
   await lab.save()
 
   return res

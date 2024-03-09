@@ -94,7 +94,7 @@ userSchema.methods.generateRefreshToken = function () {
 // Update user when a lab is created
 userSchema.statics.updateUserForLabCreation = async function (userId, labId) {
   return await this.findByIdAndUpdate(userId, { $push: { labs: labId } }, { new: true });
-};
+}; 
 
 // Update user when a compound is created
 userSchema.statics.updateUserForCompoundCreation = async function (userId, compoundId) {
