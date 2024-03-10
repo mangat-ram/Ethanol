@@ -2,6 +2,7 @@ import { Router } from "express";
 import { 
   createTask, 
   deleteTask, 
+  getCurrentCompound, 
   getTaskById, 
   getTasksByCategory,
   getTasksByStatus 
@@ -17,5 +18,6 @@ router.route("/deleteTask").delete(verifyJWT,deleteTask);
 router.route("/getTasksByCategory").get(verifyJWT,getTasksByCategory);
 router.route("/getTaskById").get(verifyJWT,getTaskById);
 router.route("/getTasksByStatus").get(verifyJWT,getTasksByStatus);
+router.route("/getCurrentTask/:labname/:taskTitle").get(verifyJWT, getCurrentLab,getCurrentCompound)
 
 export default router;

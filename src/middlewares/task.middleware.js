@@ -6,16 +6,17 @@ export const verifyTask = asyncHandler(async(req, res, next) => {
   try {
     const user = req.user;
     const userId = user._id;
-    const labname = req.params.labname;
-    const title = req.params.title;
-    if(!(user && labname && taskTitle)){
+    const labId = req.lab._id;
+    const tasktitle = req.params.title;
+    if (!(user || labname || title)){
       throw new ApiError(404,"User,labname or title in verifyTask not Found!!!")
     }
+
     const currentTask = await Task.findOne(
       {
         creator:userId,
-        labname:labname,
-        title:title
+        labName: labId,
+        title: tasktitle,
       }
     )
   

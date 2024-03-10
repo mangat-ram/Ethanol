@@ -167,14 +167,10 @@ const getTasksByCategory = asyncHandler(async(req, res) => {
 
 const getTaskById = asyncHandler(async(req, res) => {
   const taskId = req.task?._id
-  const task = await Task.aggregate(
-    [
-      {
-        $match:{
-          _id:taskId
-        }
-      }
-    ]
+  const task = await Task.findById(
+    {
+      taskId
+    }
   )
 
   if(!task){
@@ -215,6 +211,14 @@ const getTasksByStatus = asyncHandler(async(req, res) => {
   )
 })
 
+const getCurrentCompound = asyncHandler(async(req, res) =>{
+  return res
+  .status(201)
+  .json(
+    new ApiResponse(200,req.task,"Current task fetched successfully.")
+  )
+})
+
 export {
   createTask,
   updateTitle,
@@ -224,5 +228,6 @@ export {
   deleteTask,
   getTasksByCategory,
   getTaskById,
-  getTasksByStatus
+  getTasksByStatus,
+  getCurrentCompound
 }
