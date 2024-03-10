@@ -17,7 +17,11 @@ const createTask = asyncHandler(async(req, res) => {
   }
   const userId = req.user._id
   const labId = req.lab._id
+  if(!labId){
+    throw new ApiError(401,"LabId not found!!!")
+  }
 
+  
   const task = await Task.create(
     {
       title: title.toLowerCase(),
@@ -25,11 +29,12 @@ const createTask = asyncHandler(async(req, res) => {
       startDate,
       dueDate,
       creator:userId,
-      lab:labId
+      labName:labId
     }
-  )
+    )
+    await User.updateUserForCompoundCreation(userId,task._id)
+    await Lab.updateLabOnTaskCreation(labId,task._id)
 
-  
   const createdTask = await Task.findById(task._id)
 
   if(!createdTask){
@@ -111,6 +116,7 @@ const updateDueDate = asyncHandler(async(req, res) => {
 
 const updateTaskDetails = asyncHandler(async(req,res) => {
   const { title, description, startDate, dueDate } = req.body;
+  const taskId = req.task._id
   if (!title && !description && !startDate && !dueDate){
     throw new ApiError(400,"Atleast one field for updation is required for task.")
   }
@@ -122,7 +128,15 @@ const updateTaskDetails = asyncHandler(async(req,res) => {
   if (dueDate) updateFields.dueDate = dueDate;
 
   const task = await Task.findByIdAndUpdate(
-    
+    taskId,
+    {$set:updateFields},
+    {new:true}
+  )
+
+  return res
+  .status(201)
+  .json(
+    new ApiResponse(200, task,"Task details updated successfully.")
   )
 })
 
