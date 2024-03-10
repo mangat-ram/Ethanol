@@ -5,9 +5,11 @@ import {
   getCurrentCompound, 
   getTaskById, 
   getTasksByCategory,
-  getTasksByStatus 
+  getTasksByStatus, 
+  updateTaskDetails
 } from "../controllers/tasks.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { verifyTask } from "../middlewares/task.middleware.js";
 import { getCurrentLab } from "../middlewares/lab.middleware.js";
 
 const router = Router();
@@ -18,7 +20,7 @@ router.route("/deleteTask").delete(verifyJWT,deleteTask);
 router.route("/getTasksByCategory").get(verifyJWT,getTasksByCategory);
 router.route("/getTaskById").get(verifyJWT,getTaskById);
 router.route("/getTasksByStatus").get(verifyJWT,getTasksByStatus);
-router.route("/getCurrentTask/:labname/:taskTitle").get(verifyJWT, getCurrentLab,getCurrentCompound)
-
+router.route("/getCurrentTask/:labname/:title").get(verifyJWT, getCurrentLab,verifyTask,getCurrentCompound)
+router.route("/updateTaskDetails/:labname/:taskTitle").patch(verifyJWT,getCurrentLab,getCurrentCompound,updateTaskDetails)
 
 export default router;
