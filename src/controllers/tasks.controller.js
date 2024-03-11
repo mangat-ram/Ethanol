@@ -226,8 +226,8 @@ const getTasksByStatus = asyncHandler(async(req, res) => {
 })
 
 const getCurrentCompound = asyncHandler(async(req, res) =>{
-  console.log(req.lab?._id)
-  console.log(req.task?._id)
+  // console.log(req.lab?._id)
+  // console.log(req.task?._id)
   return res
   .status(201)
   .json(
