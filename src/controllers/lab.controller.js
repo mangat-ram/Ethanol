@@ -87,9 +87,34 @@ const deleteLab = asyncHandler(async(req, res) =>{
   )
 })
 
+const updateLabDetails = asyncHandler(async(req, res) => {
+  const { newlabName } = req.body;
+  if (!newlabName){
+    throw new ApiError(401,"labname is required!!!")
+  }
+
+  const labId = req.lab?._id;
+  const updatedLab = await Lab.findByIdAndUpdate(
+    labId,
+    {
+      $set:{
+        labName: newlabName
+      },
+    },
+    {new:true}
+  )
+
+  return res
+  .status(200)
+  .json(
+    new ApiResponse(200,updatedLab,"Labname updated successfully")
+  )
+})
+
 export{
   createLab,
   updateLabname,
   getLabByLabname,
-  deleteLab
+  deleteLab,
+  updateLabDetails
 }
