@@ -77,8 +77,19 @@ const getLabByLabname = asyncHandler(async(req,res) => {
   )
 })
 
+const deleteLab = asyncHandler(async(req, res) =>{
+  const labId = req.lab?._id;
+  await Lab.findByIdAndDelete(labId);
+  return res
+  .status(200)
+  .json(
+    new ApiResponse(200, {}, `task with taskId ${labId} deleted successfully.`)
+  )
+})
+
 export{
   createLab,
   updateLabname,
-  getLabByLabname
+  getLabByLabname,
+  deleteLab
 }
