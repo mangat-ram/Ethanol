@@ -48,72 +48,6 @@ const createTask = asyncHandler(async(req, res) => {
   )
 })
 
-const updateTitle = asyncHandler(async(req, res) => {
-  const { title } = req.body;
-  const task = await Task.findByIdAndUpdate(
-    req.task?._id,
-    {
-      $set:{title}
-    },
-    {new:true}
-  )
-
-  return res
-  .status(201)
-  .json(
-    new ApiResponse(200,task,"Task title updated Successfully")
-  )
-})
-
-const updateDescription = asyncHandler(async(req, res) => {
-  const { description } = req.body;
-  const task = await Task.findByIdAndUpdate(
-    req.task?._id,
-    {
-      $set: { description }
-    },
-    {new:true}
-  )
-
-  return res
-  .status(201)
-  .json(
-    new ApiResponse(200,task,"Task title updated Successfully")
-  )
-})
-const updateStartDate = asyncHandler(async(req, res) => {
-  const { startDate } = req.body;
-  const task = await Task.findByIdAndUpdate(
-    req.task?._id,
-    {
-      $set: { startDate }
-    },
-    {new:true}
-  )
-
-  return res
-  .status(201)
-  .json(
-    new ApiResponse(200,task,"Task title updated Successfully")
-  )
-})
-const updateDueDate = asyncHandler(async(req, res) => {
-  const { dueDate } = req.body;
-  const task = await Task.findByIdAndUpdate(
-    req.task?._id,
-    {
-      $set: { dueDate }
-    },
-    {new:true}
-  )
-
-  return res
-  .status(201)
-  .json(
-    new ApiResponse(200,task,"Task title updated Successfully")
-  )
-})
-
 const updateTaskDetails = asyncHandler(async(req,res) => {
   const { title, description, startDate, dueDate } = req.body;
   const taskId = req.task._id
@@ -237,10 +171,6 @@ const getCurrentCompound = asyncHandler(async(req, res) =>{
 
 export {
   createTask,
-  updateTitle,
-  updateDescription,
-  updateStartDate,
-  updateDueDate,
   deleteTask,
   getTasksByCategory,
   getTaskById,

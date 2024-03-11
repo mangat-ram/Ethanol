@@ -22,5 +22,6 @@ router.route("/getTaskById").get(verifyJWT,getTaskById);
 router.route("/getTasksByStatus").get(verifyJWT,getTasksByStatus);
 router.route("/getCurrentTask/:labname/:title").get(verifyJWT, getCurrentLab,verifyTask,getCurrentCompound)
 router.route("/updateTaskDetails/:labname/:title").patch(verifyJWT, getCurrentLab, verifyTask,updateTaskDetails)
+router.route("/deleteTaskByTitle/:labname/:title").delete(verifyJWT,getCurrentLab,verifyTask,deleteTask)
 
 export default router;
