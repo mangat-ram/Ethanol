@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { createMol } from "../controllers/mol.controller.js";
-
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { getCurrentLab } from "../middlewares/lab.middleware.js";
 import { verifyTask } from "../middlewares/task.middleware.js";
