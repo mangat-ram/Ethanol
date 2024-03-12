@@ -8,7 +8,7 @@ const router = Router();
 
 //Secured Routes
 
-router.route("/createMol/:labname/:title/:mol").post(verifyJWT,getCurrentLab,verifyTask,createMol)
+router.route("/createMol/:labname/:title").post(verifyJWT,getCurrentLab,verifyTask,createMol);
 // router.route("/getCurrentMol/:labname/:title/:molTitle").post(verifyJWT,getCurrentLab,verifyTask,createMol)
 
 export default router;

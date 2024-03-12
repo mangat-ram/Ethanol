@@ -13,11 +13,11 @@ const moleculeSchema = new Schema(
       required: true
     },
     startDate: {
-      type: Date,
+      type: String,
       required: true
     },
     dueDate: {
-      type: Date,
+      type: String,
       required: true
     },
     priority: {

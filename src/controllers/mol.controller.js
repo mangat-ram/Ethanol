@@ -4,6 +4,7 @@ import { Task } from "../models/task.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { Molecule } from "../models/molecule.model.js";
 import { User } from "../models/user.model.js";
+import { Lab } from "../models/lab.model.js";
 
 const createMol = asyncHandler(async(req, res) =>{
   const { title, description, startDate, dueDate } = req.body;
