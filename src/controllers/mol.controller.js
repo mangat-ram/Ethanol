@@ -44,6 +44,15 @@ const createMol = asyncHandler(async(req, res) =>{
   )
 })
 
+const getMolByTitle = asyncHandler(async(req, res) => {
+  return res
+  .status(201)
+  .json(
+    new ApiResponse(200,req.mol,"Mol fetched successfully.")
+  )
+})
+
 export {
-  createMol
+  createMol,
+  getMolByTitle
 }
