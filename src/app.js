@@ -22,18 +22,21 @@ const users = "/users";
 const tasks = "/tasks";
 const category = "/category";
 const labs = "/labs";
+const mols = "/mols";
 
 //Routes
 import userRouter from "./routes/user.routes.js";
 import tasksRouter from "./routes/task.routes.js";
 import categoryRouter from "./routes/category.route.js";
 import labsRouter from "./routes/lab.routes.js";
+import molRouter from "./routes/mol.routes.js";
 
 //Router Declaration
 app.use(`${apiVersion}${users}`,userRouter);
 app.use(`${apiVersion}${tasks}`, tasksRouter);
 app.use(`${apiVersion}${category}`, categoryRouter);
 app.use(`${apiVersion}${labs}`, labsRouter);
+app.use(`${apiVersion}${mols}`, molRouter);
 
 //for eg. http://localhost:3000/api/v1/users/register
 export { app }

@@ -36,6 +36,13 @@ const createMol = asyncHandler(async(req, res) =>{
   await Lab.updateLabOnMolCreation(labId, createdMol._id)
   await Task.updateTaskOnMolCreation(taskId, createdMol._id)
 
-  
-
+  return res
+  .status(201)
+  .json(
+    new ApiResponse(200,createdMol,"Molecule created successfully.")
+  )
 })
+
+export {
+  createMol
+}

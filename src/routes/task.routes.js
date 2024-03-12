@@ -12,7 +12,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { verifyTask } from "../middlewares/task.middleware.js";
 import { getCurrentLab } from "../middlewares/lab.middleware.js";
 
-const router = Router();
+const router = Router(); 
 
 //secured Routes
 router.route("/createCompound/:labname").post(verifyJWT, getCurrentLab, createTask);
