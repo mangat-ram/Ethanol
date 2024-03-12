@@ -38,10 +38,10 @@ const moleculeSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User"
     },
-    assignee: {
-      type: Schema.Types.ObjectId,
-      ref: "User"
-    },
+    // assignee: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "User"
+    // },
     // category: {
     //   type: Schema.Types.ObjectId,
     //   ref: "Category",

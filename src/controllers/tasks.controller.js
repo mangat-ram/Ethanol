@@ -17,7 +17,8 @@ const createTask = asyncHandler(async(req, res) => {
   }
   const userId = req.user._id
   const labId = req.lab._id
-  if(!labId){
+  const taskId = req.task._id
+  if(!labId || !taskId){
     throw new ApiError(401,"LabId not found!!!")
   }
 
