@@ -8,9 +8,9 @@ import { User } from "../models/user.model.js";
 import { Lab } from "../models/lab.model.js";
 
 const createTask = asyncHandler(async(req, res) => {
-  const { title, description, startDate, dueDate } = req.body;
+  const { description, startDate, dueDate } = req.body;
 
-  if([title,description,startDate,dueDate].some((field) => {
+  if([description,startDate,dueDate].some((field) => {
     return field?.trim() === ""
   })){
     throw new ApiError(400,"All fields are required!!")
@@ -18,20 +18,32 @@ const createTask = asyncHandler(async(req, res) => {
   const userId = req.user._id
   const labId = req.lab._id
   const taskId = req.task._id
+  const parTitle = req.params.title
   if(!labId || !taskId){
     throw new ApiError(401,"LabId not found!!!")
   }
 
-  
-  const task = await Task.create(
+  const taskIsExists = await Task.findOne(
     {
-      title: title.toLowerCase(),
-      description: description.toLowerCase(),
-      startDate,
-      dueDate,
-      creator:userId,
-      labName:labId
+      title: parTitle,
+      creator: userId,
+      labName: labId
     }
+  )
+
+  if (taskIsExists){
+    throw ApiError(401,"Task Already exists choose different title.")
+  }
+
+  const task = await Task.create(
+      {
+        title: parTitle.toLowerCase(),
+        description: description.toLowerCase(),
+        startDate,
+        dueDate,
+        creator:userId,
+        labName:labId
+      }
     )
     await User.updateUserForCompoundCreation(userId,task._id)
     await Lab.updateLabOnTaskCreation(labId,task._id)

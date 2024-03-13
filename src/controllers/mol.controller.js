@@ -17,8 +17,22 @@ const createMol = asyncHandler(async(req, res) =>{
   const userId = req.user._id
   const labId = req.lab._id
   const taskId = req.task._id
+  const mol = req.params.mol
   if (!labId || !taskId) {
-    throw new ApiError(401, "LabId not found!!!")
+    throw new ApiError(401, "LabId or TaskId not found!!!")
+  }
+
+  const findMol = await Molecule.findOne(
+    {
+      title:mol,
+      creator: userId,
+      labName: labId,
+      compound: taskId,
+    }
+  )
+
+  if(findMol){
+    throw new ApiError(401,"Molecule already Exists.")
   }
 
   const createdMol = await Molecule.create(
