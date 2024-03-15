@@ -182,6 +182,10 @@ const getCurrentCompound = asyncHandler(async(req, res) =>{
   )
 })
 
+const deleteTaskByLabname = asyncHandler(async(req, res) =>{
+  
+})
+
 export {
   createTask,
   deleteTask,
