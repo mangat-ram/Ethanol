@@ -66,6 +66,10 @@ const getMolByTitle = asyncHandler(async(req, res) => {
   )
 })
 
+const deleteMolByLabAndTask = asyncHandler(async(req,res) => {
+  
+})
+
 export {
   createMol,
   getMolByTitle
