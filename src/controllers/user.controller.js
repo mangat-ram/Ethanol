@@ -20,6 +20,20 @@ const generateAccessAndRefreshTokens = async (userId) => {
   }
 }
 
+const checkUniqueUser = asyncHandler(async (req,res) => {
+  const userName = req.params
+  const user = await username.findOne({userName})
+  if(user){
+    throw new ApiError(401,"Username is not available.")
+  }
+
+  return res
+    .status(201)
+    .json(
+      new ApiResponse(200,{},"Username is available.")
+    )
+})
+
 const registerUser = asyncHandler(async (req,res) => {
   const { userName, name, email, passWord} = req.body;
 
