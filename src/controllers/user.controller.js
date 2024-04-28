@@ -21,10 +21,14 @@ const generateAccessAndRefreshTokens = async (userId) => {
 }
 
 const checkUniqueUser = asyncHandler(async (req,res) => {
-  const userName = req.params
-  const user = await username.findOne({userName})
+  const {userName} = req.params
+  const user = await User.findOne({userName})
   if(user){
-    throw new ApiError(401,"Username is not available.")
+    return res
+      .status(201)
+      .json(
+        new ApiResponse(200, {}, "Username is already Taken.")
+      )
   }
 
   return res
@@ -44,22 +48,29 @@ const registerUser = asyncHandler(async (req,res) => {
   }
 
   const existedUser = await User.findOne({
-    $or:[{userName},{email}]
+    $or: [{ userName }, { email }, { verifyCode:true}]
   })
 
   if(existedUser){
     throw new ApiError(409,"User with email or username already exists!!")
   }
 
+  const verifyCode = Math.floor(100000 + Math.random() * 900000).toString()
+  const verifyCodeExpiry = new Date();
+  verifyCodeExpiry.setHours(verifyCodeExpiry.getHours() + 1)
+
   const user = await User.create({
     userName: userName.toLowerCase(),
     name,
     email,
-    passWord
+    passWord,
+    verifyCode,
+    verifyCodeExpiry,
+    isVerified:false
   })
 
   const createdUser = await User.findById(user._id).select(
-    "-passWord -refreshToken"
+    "-passWord -refreshToken -verifyCode -verifyCodeExpiry"
   )
 
   if(!createdUser){
@@ -71,6 +82,45 @@ const registerUser = asyncHandler(async (req,res) => {
   .json(
     new ApiResponse(200,createdUser,"User Registred Successfully.")
   )
+})
+
+const verifyEmail = asyncHandler(async (req,res) => {
+  const { username,code } = req.body
+  const decodedUsername = decodeURIComponent(username);
+  const user = await User.findOne({userName:decodedUsername})
+  if(!user){
+    return res
+      .status(404)
+      .json(
+        new ApiResponse(404,{},"User not found.")
+      )
+  }
+
+  const isCodeValid = user.verifyCode === code
+  const isCodeNotExpired = new Date(user.verifyCodeExpiry) > new Date()
+
+  if(isCodeValid && isCodeNotExpired){
+    user.isVerified = true
+    await user.save()
+
+    return res
+      .status(201)
+      .json(
+        new ApiResponse(200,{},"User is Verified Successfully.")
+      )
+  }else if(!isCodeNotExpired){
+    return res
+      .status(201)
+      .json(
+        new ApiResponse(200,{},"User not found")
+      )
+  }else{
+    return res
+      .status(201)
+      .json(
+        new ApiResponse(200,{},"Incorrect Verification code!")
+      )
+  }
 })
 
 const loginUser = asyncHandler(async (req, res) => {
@@ -254,5 +304,6 @@ export {
   changeCurrentPassword,
   getCurrentUser,
   updateAccountDetails,
-  checkUniqueUser
+  checkUniqueUser,
+  verifyEmail
 }

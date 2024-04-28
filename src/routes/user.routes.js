@@ -7,7 +7,8 @@ import {
   changeCurrentPassword,
   refreshAccessToken, 
   getCurrentUser,
-  checkUniqueUser
+  checkUniqueUser,
+  verifyEmail
 } from "../controllers/user.controller.js";
 
 import { verifyJWT } from "../middlewares/auth.middleware.js"
@@ -17,6 +18,7 @@ const router = Router();
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
 router.route("/checkUniqueUser/:userName").get(checkUniqueUser);
+router.route("/verifyEmail").post(verifyEmail)
 
 //Secured Routes
 router.route("/logout").post(verifyJWT,logoutUser);
