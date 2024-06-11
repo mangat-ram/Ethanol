@@ -3,7 +3,6 @@ import { User } from "../models/user.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try{
@@ -226,16 +225,16 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     const { accessToken, newrefreshToken } = await generateAccessAndRefreshTokens(user._id)
 
     return res
-    .status(200)
-    .cookie("accessToken",accessToken,options)
+      .status(200)
+      .cookie("accessToken",accessToken,options)
       .cookie("refreshToken", newrefreshToken,options)
-    .json(
-      new ApiResponse(
-        200,
-        {accessToken,newrefreshToken},
-        "Access Token Refreshed Successfully."
+      .json(
+        new ApiResponse(
+          200,
+          {accessToken,newrefreshToken},
+          "Access Token Refreshed Successfully."
+        )
       )
-    )
   }catch(err){
     throw new ApiError(401,err?.message || "Invalid Refresh Token Catched!!")
   }
