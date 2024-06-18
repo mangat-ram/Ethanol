@@ -36,6 +36,43 @@ const createLab = asyncHandler(async(req,res) => {
   )
 })
 
+const createLabByUsername = asyncHandler( async(req, res) => {
+  const { userName } = req.params;
+  const { labName } = req.body;
+  if (!userName || !labName) {
+    throw new ApiError(400, "userName is required in params!!!")
+  }
+  if (!labName) {
+    throw new ApiError(400, "labName is required!!!")
+  }
+
+  const user = await User.findOne({userName});
+  const userId = user._id;
+
+  const isExists = await Lab.findOne({
+    labName,
+    labMaker: userId
+  })
+
+  if(isExists){
+    throw new ApiError(409, "Choose diffrent labname, already exists.")
+  }
+
+  const lab = new Lab({
+    labName,
+    labMaker: userId
+  })
+
+  const newUser = await User.updateUserForLabCreation(userId, lab._id);
+  await lab.save();
+
+  return res
+    .status(201)
+    .json(
+      new ApiResponse(200, lab, "Lab created Successfully.")
+    )
+})
+
 const updateLabname = asyncHandler(async(req, res) => {
   const { oldLabname,newLabname } = req.body;
   if(!oldLabname && !newLabname){
@@ -116,5 +153,6 @@ export{
   updateLabname,
   getLabByLabname,
   deleteLab,
-  updateLabDetails
+  updateLabDetails,
+  createLabByUsername
 }

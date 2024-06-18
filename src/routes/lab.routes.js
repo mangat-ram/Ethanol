@@ -4,13 +4,15 @@ import {
     updateLabname,
     getLabByLabname,
     deleteLab,
-    updateLabDetails
+    updateLabDetails,
+    createLabByUsername
   } from "../controllers/lab.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { getCurrentLab } from "../middlewares/lab.middleware.js";
 
 const router = Router();
 
+router.route("/createLabByName/:labName").post(createLabByUsername);
 
 // secured Routes
 router.route("/createLab").post(verifyJWT, createLab);
