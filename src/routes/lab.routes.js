@@ -12,7 +12,7 @@ import { getCurrentLab } from "../middlewares/lab.middleware.js";
 
 const router = Router();
 
-router.route("/createLabByName/:labName").post(createLabByUsername);
+router.route("/createLabByName/:userName").post(createLabByUsername);
 
 // secured Routes
 router.route("/createLab").post(verifyJWT, createLab);
