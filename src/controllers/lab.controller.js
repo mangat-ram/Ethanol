@@ -148,11 +148,40 @@ const updateLabDetails = asyncHandler(async(req, res) => {
   )
 })
 
+const getLabsByUsername = asyncHandler(async(req,res) => {
+  const { userName } = req.params;
+  if(!userName){
+    throw new ApiError(401, "username is required!!!")
+  }
+
+  const user = await User.findOne({ userName });
+  if(!user){
+    throw new ApiError(404, "username not found!!!")
+  }
+
+  const labs = await Lab.aggregate(
+    [
+      {
+        $match:{
+          labMaker: user._id
+        }
+      }
+    ]
+  )
+
+  return res
+  .status(200)
+  .json(
+    new ApiResponse(200,labs,"labs fetched successfully.")
+  )
+})
+
 export{
   createLab,
   updateLabname,
   getLabByLabname,
   deleteLab,
   updateLabDetails,
-  createLabByUsername
+  createLabByUsername,
+  getLabsByUsername
 }
