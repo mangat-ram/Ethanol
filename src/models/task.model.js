@@ -34,7 +34,7 @@ const taskSchema = new Schema(
       default:false
     },
     creator:{
-      type:Schema.Types.ObjectId,
+      type:Schema.Types.String,
       ref:"User"
     },
     // assignee:{
@@ -51,7 +51,7 @@ const taskSchema = new Schema(
       default:"feature"
     },
     labName :{
-      type:Schema.Types.ObjectId,
+      type:Schema.Types.String,
       ref:"Lab"
     },
     molecules:[

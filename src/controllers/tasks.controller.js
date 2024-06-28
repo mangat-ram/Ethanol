@@ -7,6 +7,62 @@ import mongoose from "mongoose";
 import { User } from "../models/user.model.js";
 import { Lab } from "../models/lab.model.js";
 
+const createTaskByLabname = asyncHandler(async(req, res) => {
+  const { description, startDate, dueDate } = req.body;
+
+  if ([description, startDate, dueDate].some((field) => {
+    return field?.trim() === ""
+  })) {
+    throw new ApiError(400, "All fields are required!!")
+  }
+
+  const username = req.params.username;
+  const labname = req.params.labname;
+  const title = req.params.title;
+
+  if (!username || !labname) {
+    throw new ApiError(401, "labname not found!!!")
+  }
+
+  const taskIsExists = await Task.findOne(
+    {
+      title:title,
+      creator:username,
+      labName:labname
+    }
+  )
+
+  if (taskIsExists) {
+    throw ApiError(401, "Task Already exists choose different title.")
+  }
+
+  const task = await Task.create(
+    {
+      title: title.toLowerCase(),
+      description: description.toLowerCase(),
+      startDate,
+      dueDate,
+      creator: username,
+      labName: labname
+    }
+  )
+
+  await User.updateUserForCompoundCreation(username, task._id)
+  await Lab.updateLabOnTaskCreation(labname, task._id)
+
+  const createdTask = await Task.findById(task._id)
+
+  if (!createdTask) {
+    throw new ApiError(500, "Something went wrong while creating Task!!!")
+  }
+
+  return res
+    .status(201)
+    .json(
+      new ApiResponse(200, createdTask, "Task created Successfully.")
+    )
+})
+
 const createTask = asyncHandler(async(req, res) => {
   const { description, startDate, dueDate } = req.body;
 
@@ -187,6 +243,7 @@ const deleteTaskByLabname = asyncHandler(async(req, res) =>{
 })
 
 export {
+  createTaskByLabname,
   createTask,
   deleteTask,
   getTasksByCategory,

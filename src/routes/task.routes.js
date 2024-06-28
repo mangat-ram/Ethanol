@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { 
   createTask, 
+  createTaskByLabname, 
   deleteTask, 
   getCurrentCompound, 
   getTaskById, 
@@ -14,6 +15,7 @@ import { getCurrentLab } from "../middlewares/lab.middleware.js";
 
 const router = Router(); 
 
+router.route("/createTaskByLabname/:username/:labname/:title").post(createTaskByLabname);
 //secured Routes
 router.route("/createCompound/:labname/:title").post(verifyJWT, getCurrentLab, createTask);
 router.route("/deleteTask").delete(verifyJWT,deleteTask);

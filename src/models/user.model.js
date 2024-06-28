@@ -52,7 +52,7 @@ const userSchema = new Schema({
   ],
   compounds: [
     {
-      type: Schema.Types.ObjectId,
+      type: Schema.Types.String,
       ref: "Task"
     }
   ],
